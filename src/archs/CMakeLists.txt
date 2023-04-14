@@ -2,7 +2,7 @@ file(GLOB ARCHS_SRC
     "*.cpp"
 )
 
-add_library(archs OBJECT ${ARCHS_SRC})
+add_library(archs OBJECT ${ARCHS_SRC} SimpleArchDiag.cpp SimpleArchOrth.cpp MeshPlusArch.cpp)
 
 target_include_directories(archs
     PRIVATE ${CGRAME_INCLUDE_DIR}

@@ -84,6 +84,16 @@ class UserArchs
                             {"rf_rows", "1"}, // Register File Rows
                             }
                             )));
+
+            archs.push_back(std::make_pair(createMeshPlus, std::make_pair("Simple Mesh Plus CGRA Architecture", std::map<std::string, std::string>
+                    {
+                            {"cols", "4"}, // Columns
+                            {"rows", "4"}, // Rows
+                            {"homogeneous_fu", "1"}, // Homogeneous Function Unit ( 1 = true, 0 = false)
+                    }
+            )));
+
+
         }
 
         std::vector<std::pair<std::unique_ptr<CGRA> (*) (const std::map<std::string, std::string>&), std::pair<std::string, std::map<std::string, std::string>>>> archs;
@@ -93,6 +103,8 @@ class UserArchs
         static std::unique_ptr<CGRA> createSimpleArchOrth(const std::map<std::string, std::string> & args);
         static std::unique_ptr<CGRA> createSimpleArchDiag(const std::map<std::string, std::string> & args);
         static std::unique_ptr<CGRA> createAdresArch(const std::map<std::string, std::string> & args);
+        static std::unique_ptr<CGRA> createMeshPlus(const std::map<std::string, std::string> & args);
+
 };
 
 #endif
