@@ -1,4 +1,35 @@
 <templates>
+    <module name="meshplus">
+        <input name="in0"/> <input name="in1"/> <input name="in2"/> <input name="in3"/> <input name="in4"/> <input name="in5"/>
+        <output name="out0"/> <output name="out1"/>  <output name="out2"/>  <output name="out3"/> <output name="out4"/> <output name="out5"/>
+        <inst name="func" module="FuncUnit" op="add sub mul div and or xor shl shr shra"/>
+        <inst name="register0" module="Register"/>
+        <inst name="register1" module="Register"/>
+        <inst name="register2" module="Register"/>
+        <inst name="register3" module="Register"/>
+
+
+        <inst name="const" module="ConstUnit"/>
+        <inst name="mem_port" module="MemPort" ninput="4"/>
+        <wire name="in_a"/> <wire name="in_b"/> <wire name="func_out"/>
+        <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 register0.out register1.out register2.out register3.out const.out func_out" to="in_a in_b"/>
+        <connection from="in_a" to="func.in_a"/>
+        <connection from="in_b" to="func.in_b"/>
+        <connection select-from="in_a in_b func.out" to="func_out"/>
+        <connection from="func_out" to="register0.in"/>
+        <connection from="func_out" to="register1.in"/>
+        <connection from="func_out" to="register2.in"/>
+        <connection from="func_out" to="register3.in"/>
+        <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out0"/>
+        <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out1"/>
+        <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out2"/>
+        <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out3"/>
+        <connection from="this.in0" to="mem_port.in0"/>
+        <connection from="this.in1" to="mem_port.in1"/>
+        <connection from="this.in2" to="mem_port.in2"/>
+        <connection from="this.in3" to="mem_port.in3"/>
+    </module>
+
     <module name="meshblock1">
         <input name="in0"/> <input name="in1"/> <input name="in2"/> <input name="in3"/>
         <output name="out0"/> <output name="out1"/>  <output name="out2"/>  <output name="out3"/>

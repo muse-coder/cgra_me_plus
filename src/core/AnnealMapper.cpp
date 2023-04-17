@@ -991,27 +991,27 @@ Mapping AnnealMapper::mapOpGraph(std::shared_ptr<OpGraph> opgraph, int II, std::
 {
     // get the mrrg object
     MRRG *mrrg = cgra->getMRRG(II).get();
-
-     for(int i = 0; i< systolic_array_x; i++){
-        for(int j=0; j< systolic_array_y;j++){
-            systolic_pe_index.emplace(std::make_pair(i,j),sys_arr[i][j]);
-        }
-    }
+//
+//     for(int i = 0; i< systolic_array_x; i++){
+//        for(int j=0; j< systolic_array_y;j++){
+//            systolic_pe_index.emplace(std::make_pair(i,j),sys_arr[i][j]);
+//        }
+//    }
         arch_model_name_ = arch_model_name;
 
 
     this->this_mrr = mrrg;
-    if (arch_model_name_.find("systolic") != std::string::npos) {
-        this_mrr->makeSystolicArray(systolic_pe_index, systolic_array_x);
-    }
-
-     if (arch_model_name_.find("leftmostmemory") != std::string::npos) {
-        this_mrr->makeLeftMostMemoryAccess();
-    }
+//    if (arch_model_name_.find("systolic") != std::string::npos) {
+//        this_mrr->makeSystolicArray(systolic_pe_index, systolic_array_x);
+//    }
+//
+//     if (arch_model_name_.find("leftmostmemory") != std::string::npos) {
+//        this_mrr->makeLeftMostMemoryAccess();
+//    }
 
     MAX_OVERUSE = opgraph->op_nodes.size() * 100;
 
-
+//    ***************initial MRRG and graph node***************
     // Create result obj
     Mapping mapping_result(cgra, II, opgraph);
 
@@ -1046,6 +1046,7 @@ Mapping AnnealMapper::mapOpGraph(std::shared_ptr<OpGraph> opgraph, int II, std::
     std::map<OpGraphNode*, MRRGNode*>  bestPlacement;
     int min_cost  = 10000000;
      bool routed = true;
+//     搜索一百次找到当前最佳的placement
     for(int i  = 0 ; i < 100 ; i++){
         routed = true;
         std::map<OpGraphNode*, MRRGNode*>  currPlacement;
@@ -1067,7 +1068,10 @@ Mapping AnnealMapper::mapOpGraph(std::shared_ptr<OpGraph> opgraph, int II, std::
         {
             routed = routeOp(op, mrrg);
             
-            if(!routed) break;
+            if(!routed){
+//                std::cout<<"unrouted\n";
+                break;
+            }
         }
 
         if(routed) {
@@ -1084,7 +1088,7 @@ Mapping AnnealMapper::mapOpGraph(std::shared_ptr<OpGraph> opgraph, int II, std::
         }
 
         if( i == 50) {
-            allow_overuse =  true;
+            allow_overuse =  true;//50次后再允许overuse
             LOG(SA) <<"iter:"<< i <<" set overuse\n" ;
         }
         

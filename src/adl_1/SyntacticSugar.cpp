@@ -87,10 +87,16 @@ bool create_orthogonal_mesh(ADLStructs &xmlData, pugi::xml_node mesh, bool speci
 
     //Get the names of the ports to add
     std::string outNorth, outEast, outWest, outSouth, inNorth, inEast, inWest, inSouth;
+    std::string outBypass1,outBypass2,inBypass1,inBypass2;
     outNorth = mesh.attribute("out-north").value();
     outWest = mesh.attribute("out-west").value();
     outEast = mesh.attribute("out-east").value();
     outSouth = mesh.attribute("out-south").value();
+    outBypass1 = mesh.attribute("out-bypass1").value();
+    outBypass2 = mesh.attribute("out-bypass2").value();
+    inBypass1 = mesh.attribute("in-bypass1").value();
+    inBypass2 = mesh.attribute("in-bypass2").value();
+
     inNorth = mesh.attribute("in-north").value();
     inEast = mesh.attribute("in-east").value();
     inWest = mesh.attribute("in-west").value();
@@ -104,6 +110,10 @@ bool create_orthogonal_mesh(ADLStructs &xmlData, pugi::xml_node mesh, bool speci
     ports.insert(std::make_pair(5, inEast));
     ports.insert(std::make_pair(6, inSouth));
     ports.insert(std::make_pair(7, inWest));
+    ports.insert(std::make_pair(8, inBypass1));
+    ports.insert(std::make_pair(9, inBypass2));
+    ports.insert(std::make_pair(10, outBypass1));
+    ports.insert(std::make_pair(11, outBypass2));
 
     //First, create the IOs based on the user description
     std::string ioLayout = mesh.attribute("io").value();
@@ -342,9 +352,47 @@ bool create_orthogonal_mesh(ADLStructs &xmlData, pugi::xml_node mesh, bool speci
     if(!special_arch)  xmlData.connections.push_back(std::make_tuple("to", to, "from", from));
 
 
+
+
+
+
+    //connecting bypass1
+    for(int row = startRow + 1; row < endRow-1 ; row++) {
+        for(int col = startCol +1 ; col <endCol -3;col++){
+            std::string opBlock = create_xml_block(row,col);
+            std::string target = create_xml_block(row, col+2);
+            std::string from = opBlock + outBypass1;
+            std::string to = target + inBypass1;
+            xmlData.connections.push_back(std::make_tuple("to", to, "from", from));
+
+            opBlock = create_xml_block(row,col+2);
+            target = create_xml_block(row, col);
+            from = opBlock + outBypass1;
+            to = target + inBypass1;
+            xmlData.connections.push_back(std::make_tuple("to", to, "from", from));
+        }
+    }
+
+    //connecting bypass2
+    for(int row = startRow + 1; row < endRow-3 ; row++) {
+        for(int col = startCol +1 ; col <endCol -1;col++){
+                std::string opBlock = create_xml_block(row,col);
+                std::string target = create_xml_block(row+2, col);
+                std::string from = opBlock + outBypass2;
+                std::string to = target + inBypass2;
+                xmlData.connections.push_back(std::make_tuple("to", to, "from", from));
+
+                opBlock = create_xml_block(row+2,col);
+                target = create_xml_block(row, col);
+                from = opBlock + outBypass2;
+                to = target + inBypass2;
+                xmlData.connections.push_back(std::make_tuple("to", to, "from", from));
+            }
+        }
 }
 
-//This function populates the xmlData wit the "diagonal" attributes that the user defines
+
+    //This function populates the xmlData wit the "diagonal" attributes that the user defines
 bool create_diag_mesh(ADLStructs &xmlData, pugi::xml_node diagonal)
 {
     //Gather the operating rows and cols for the mesh
