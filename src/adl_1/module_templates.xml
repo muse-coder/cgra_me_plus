@@ -24,10 +24,14 @@
         <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out1"/>
         <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out2"/>
         <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out3"/>
+        <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out4"/>
+        <connection select-from="this.in0 this.in1 this.in2 this.in3 this.in4 this.in5 func_out register0.out register1.out register2.out register3.out mem_port.out" to="this.out5"/>
         <connection from="this.in0" to="mem_port.in0"/>
         <connection from="this.in1" to="mem_port.in1"/>
         <connection from="this.in2" to="mem_port.in2"/>
         <connection from="this.in3" to="mem_port.in3"/>
+<!--        <connection from="this.in4" to="mem_port.in4"/>-->
+<!--        <connection from="this.in5" to="mem_port.in5"/>-->
     </module>
 
     <module name="meshblock1">
@@ -156,7 +160,23 @@
         <connection from="mem_port.out" to="this.out"/>
     </module>
 
-  
+    <module name="MemPort_plus">
+        <input name="in0"/>
+        <input name="in1"/>
+        <input name="in2"/>
+        <input name="in3"/>
+        <input name="in4"/>
+        <input name="in5"/>
+        <output name="out"/>
+        <inst name="mem_port" module="MemPort_plus" ninput="6"/>
+        <connection from="this.in0" to="mem_port.in0"/>
+        <connection from="this.in1" to="mem_port.in1"/>
+        <connection from="this.in2" to="mem_port.in2"/>
+        <connection from="this.in3" to="mem_port.in3"/>
+        <connection from="this.in4" to="mem_port.in4"/>
+        <connection from="this.in5" to="mem_port.in5"/>
+        <connection from="mem_port.out" to="this.out"/>
+    </module>
 
     <module name="VLIWAdresPE">
         <input name="in0"/> <input name="in1"/> <input name="in2"/> <input name="in3"/> <input name="in4"/> <input name="in5"/> <input name="in6"/> <input name="in7"/>

@@ -13,5 +13,5 @@
       <interior>
         <block module="meshblock1">
       </interior>
-    </diagonal>
+    </mesh>
   </architecture>
