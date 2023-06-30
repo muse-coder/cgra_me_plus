@@ -1,5 +1,5 @@
   <architecture col="6" row="6">
-    <mesh row-range="0 5" col-range="0 5" 
+    <mesh row-range="0 5" col-range="0 5"
           out-north=".out0"
           out-east=".out1"
           out-west=".out2"
